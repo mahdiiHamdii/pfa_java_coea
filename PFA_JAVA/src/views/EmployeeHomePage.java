@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class EmployeeHomePage {
 
@@ -68,6 +70,13 @@ public class EmployeeHomePage {
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JButton btnViewGroups = new JButton("View Groups");
+		btnViewGroups.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				//..............action performed on mouse click
+				System.out.println("hello");
+			}
+		});
 		btnViewGroups.setForeground(new Color(255, 255, 255));
 		btnViewGroups.setBackground(new Color(0, 139, 139));
 		btnViewGroups.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
