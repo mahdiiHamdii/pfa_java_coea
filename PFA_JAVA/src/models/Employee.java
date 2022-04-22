@@ -10,4 +10,20 @@ public class Employee extends Person {
 	public ArrayList<Object> viewGroups() {
 		return null;
 	}
+	
+	public ArrayList<Object> viewPlan() {
+		return null;
+	}
+	
+	public void addNote() {
+		
+	}
+	
+	public ArrayList<Object> viewChild() {
+		return null;
+	}
+	
+	public String viewNote() {
+		return null;
+	}
 }

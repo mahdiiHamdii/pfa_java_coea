@@ -6,15 +6,31 @@ public class Manager extends Person {
 
 	}
 
-	public void addChild() {
+	public void addChild(Child c) {
 
 	}
 
-	public void removeChild() {
+	public void removeChild(Child c) {
 
 	}
 
-	public void updateChild() {
+	public void updateChild(Child c) {
+
+	}
+
+	public void addEmployee(Employee c) {
+
+	}
+
+	public void removeEmployee(Employee c) {
+
+	}
+
+	public void updateEmployee(Employee c) {
+
+	}
+
+	public void addEvent(Event c) {
 
 	}
 }

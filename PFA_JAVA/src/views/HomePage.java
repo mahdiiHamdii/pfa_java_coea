@@ -11,12 +11,18 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
+import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class HomePage {
 
 	private JFrame frame;
-	private JTextField usernameT;
-	private JTextField passwordT;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -46,60 +52,101 @@ public class HomePage {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(240, 230, 140));
+		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBounds(Consts.x, Consts.y, Consts.z, Consts.w);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("LOGO APP");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 11, 154, 45);
-		frame.getContentPane().add(lblNewLabel);
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(100, 149, 237));
+		panel.setBounds(0, 0, 924, 587);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Welcome To COEA");
-		lblNewLabel_1.setForeground(new Color(0, 139, 139));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 25));
-		lblNewLabel_1.setBounds(151, 52, 321, 50);
-		frame.getContentPane().add(lblNewLabel_1);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.WHITE);
+		panel_1.setBounds(36, 30, 865, 534);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JLabel lblPleaseLogin = new JLabel("Sign In");
-		lblPleaseLogin.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPleaseLogin.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 18));
-		lblPleaseLogin.setBounds(251, 140, 121, 50);
-		frame.getContentPane().add(lblPleaseLogin);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel.setIcon(new ImageIcon(HomePage.class.getResource("/images/Picture6.jpg")));
+		lblNewLabel.setBounds(385, 36, 470, 446);
+		panel_1.add(lblNewLabel);
 		
-		usernameT = new JTextField();
-		usernameT.setToolTipText("Username");
-		usernameT.setBounds(235, 187, 154, 45);
-		frame.getContentPane().add(usernameT);
-		usernameT.setColumns(10);
+		JLabel label_1 = new JLabel("Sign In");
+		label_1.setForeground(new Color(0, 0, 0));
+		label_1.setHorizontalAlignment(SwingConstants.LEFT);
+		label_1.setFont(new Font("Trebuchet MS", Font.BOLD, 25));
+		label_1.setBounds(58, 41, 150, 57);
+		panel_1.add(label_1);
 		
-		passwordT = new JTextField();
-		passwordT.setToolTipText("Password");
-		passwordT.setColumns(10);
-		passwordT.setBounds(235, 243, 154, 45);
-		frame.getContentPane().add(passwordT);
+		textField = new JTextField();
+		textField.setToolTipText("Username");
+		textField.setColumns(10);
+		textField.setBounds(58, 177, 225, 45);
+		panel_1.add(textField);
 		
-		JLabel lblNewLabel_2 = new JLabel("Username ");
-		lblNewLabel_2.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 16));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(153, 187, 88, 45);
-		frame.getContentPane().add(lblNewLabel_2);
+		textField_1 = new JTextField();
+		textField_1.setToolTipText("Password");
+		textField_1.setColumns(10);
+		textField_1.setBounds(58, 264, 225, 45);
+		panel_1.add(textField_1);
 		
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 16));
-		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPassword.setBounds(151, 243, 88, 45);
-		frame.getContentPane().add(lblPassword);
+		JLabel lblEmailOrUsername = new JLabel("Email / Username");
+		lblEmailOrUsername.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmailOrUsername.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+		lblEmailOrUsername.setBounds(58, 147, 143, 31);
+		panel_1.add(lblEmailOrUsername);
 		
-		JButton confirmBtn = new JButton("Confirm");
-		confirmBtn.setForeground(new Color(255, 255, 255));
-		confirmBtn.setBackground(new Color(0, 139, 139));
-		confirmBtn.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 15));
-		confirmBtn.setBounds(235, 308, 154, 45);
-		frame.getContentPane().add(confirmBtn);
+		JLabel label_3 = new JLabel("Password");
+		label_3.setHorizontalAlignment(SwingConstants.LEFT);
+		label_3.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+		label_3.setBounds(58, 234, 88, 31);
+		panel_1.add(label_3);
+		
+		JButton btnConfirm = new JButton("Sign In");
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnConfirm.setForeground(new Color(255, 255, 255));
+		btnConfirm.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
+		btnConfirm.setBackground(new Color(100, 149, 237));
+		btnConfirm.setBounds(58, 391, 225, 45);
+		panel_1.add(btnConfirm);
+		
+		JLabel lblNewLabel_1 = new JLabel("Don't Have An Account ?");
+		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(58, 99, 155, 23);
+		panel_1.add(lblNewLabel_1);
+		
+		JLabel lblSignUp = new JLabel("Sign Up");
+		lblSignUp.setForeground(new Color(100, 149, 237));
+		lblSignUp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+		});
+		lblSignUp.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+		lblSignUp.setBounds(223, 99, 69, 23);
+		panel_1.add(lblSignUp);
+		
+		JLabel lblNotAnEmployee = new JLabel("Not An Employee?");
+		lblNotAnEmployee.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
+		lblNotAnEmployee.setBounds(58, 335, 155, 23);
+		panel_1.add(lblNotAnEmployee);
+		
+		JLabel lblChangeToManager = new JLabel("Log As Manager");
+		lblChangeToManager.setForeground(new Color(100, 149, 237));
+		lblChangeToManager.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		lblChangeToManager.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
+		lblChangeToManager.setBounds(177, 335, 108, 23);
+		panel_1.add(lblChangeToManager);
 	}
-
 }
