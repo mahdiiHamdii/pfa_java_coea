@@ -8,6 +8,8 @@ import services.Consts;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -70,8 +72,9 @@ public class HomePage {
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setIcon(new ImageIcon(HomePage.class.getResource("/images/Picture6.jpg")));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);		
+		ImageIcon imageIcon = new ImageIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/bg3.jpg")).getImage().getScaledInstance(492 , 492 , Image.SCALE_DEFAULT));
+		lblNewLabel.setIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/bg3.jpg")));
 		lblNewLabel.setBounds(385, 36, 470, 446);
 		panel_1.add(lblNewLabel);
 		

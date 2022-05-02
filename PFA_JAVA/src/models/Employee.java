@@ -3,9 +3,10 @@ package models;
 import java.util.ArrayList;
 
 public class Employee extends Person {
-	protected Employee(int id, String name, int age, String address) {
+	String note;
+	protected Employee(int id, String name, int age, String address,String note) {
 		super(id, name, age, address);
-
+		this.note=note;
 	}
 	public ArrayList<Object> viewGroups() {
 		return null;

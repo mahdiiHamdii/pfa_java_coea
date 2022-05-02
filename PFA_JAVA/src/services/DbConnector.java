@@ -1,16 +1,19 @@
 package services;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DbConnector {
-	private Connection connection;
+	private static Connection connection;
 	private Statement st;
 	private ResultSet rs;
 	private String sql;
+	private DatabaseMetaData DATABASE_METADATA = null;
+	
 
 	public boolean seConnecter(){ 
 		 
@@ -49,4 +52,15 @@ public class DbConnector {
 
 	public ResultSet getRs() { 
  		 return rs;  }
+	public DatabaseMetaData getMetadata() throws Exception {
+        try {
+            if (connection != null) {
+                this.DATABASE_METADATA = connection.getMetaData();
+            }
+        } catch (SQLException ex) {
+            throw new Exception(ex);
+        }
+        return this.DATABASE_METADATA;
+    }
 }
+
