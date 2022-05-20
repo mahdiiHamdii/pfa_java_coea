@@ -22,7 +22,8 @@ public class DbConnector {
 		 String mdp="0000"; 
 		 try { 
 			 Class.forName("com.mysql.cj.jdbc.Driver").newInstance(); 
-			System.out.println("connection success");} 
+			//System.out.println("connection success");
+			 } 
 		 catch (InstantiationException | ClassNotFoundException |IllegalAccessException e) { 
 			 e.printStackTrace(); return false;		 }
 			 

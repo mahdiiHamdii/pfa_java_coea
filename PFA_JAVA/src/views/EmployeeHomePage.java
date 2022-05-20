@@ -34,6 +34,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.sql.DatabaseMetaData;
+import javax.swing.UIManager;
 
 public class EmployeeHomePage {
 	private ArrayList<String> TABLE_COLUMNS;
@@ -89,7 +90,7 @@ public class EmployeeHomePage {
 		ImageIcon imageIcon = new ImageIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/bg3.jpg")).getImage().getScaledInstance(460,460 , Image.SCALE_DEFAULT));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(271, 144, 551, 289);
+		scrollPane.setBounds(224, 74, 598, 289);
 		panel_1.add(scrollPane);
 		
 		
@@ -97,38 +98,31 @@ public class EmployeeHomePage {
 		
 		table = new JTable();
 		
-		
-		
-		
-		JLabel lblPhoto = new JLabel("Photo");
-		lblPhoto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPhoto.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		lblPhoto.setBounds(10, 11, 81, 80);
-		panel_1.add(lblPhoto);
-		
-		JButton button = new JButton("Sign out");
+		JButton button = new JButton("");
+		button.setBackground(UIManager.getColor("text"));
+		button.setIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/Picture3.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		button.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 18));
-		button.setBounds(752, 11, 103, 52);
+		button.setBounds(777, 11, 78, 52);
 		panel_1.add(button);
 		
-		JLabel lblNewLabel = new JLabel("Employee Name");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-		lblNewLabel.setBounds(92, 34, 138, 37);
-		panel_1.add(lblNewLabel);
+		JLabel employeeNameL = new JLabel("Employee Name");
+		employeeNameL.setHorizontalAlignment(SwingConstants.CENTER);
+		employeeNameL.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		employeeNameL.setBounds(32, 88, 138, 52);
+		panel_1.add(employeeNameL);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setFont(new Font("Arial", Font.BOLD, 14));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"No Item Selected", "group", "event", "child"}));
-		comboBox.setBounds(47, 203, 146, 52);
+		comboBox.setBounds(23, 255, 156, 52);
 		panel_1.add(comboBox);
 		
-		JButton btnGetData = new JButton("Get Data");
-		btnGetData.addActionListener(new ActionListener() {
+		JButton reloadBtn = new JButton("Reload");
+		reloadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (comboBox.getSelectedIndex() == -1) {
 		            return;
@@ -148,11 +142,37 @@ public class EmployeeHomePage {
 		    }
 			
 		});
-		btnGetData.setForeground(Color.WHITE);
-		btnGetData.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
-		btnGetData.setBackground(new Color(100, 149, 237));
-		btnGetData.setBounds(58, 266, 125, 37);
-		panel_1.add(btnGetData);
+		reloadBtn.setForeground(Color.WHITE);
+		reloadBtn.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
+		reloadBtn.setBackground(new Color(100, 149, 237));
+		reloadBtn.setBounds(39, 204, 125, 37);
+		panel_1.add(reloadBtn);
+		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.setForeground(Color.WHITE);
+		btnAdd.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
+		btnAdd.setBackground(new Color(100, 149, 237));
+		btnAdd.setBounds(122, 429, 125, 37);
+		panel_1.add(btnAdd);
+		
+		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setForeground(Color.WHITE);
+		btnUpdate.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
+		btnUpdate.setBackground(new Color(100, 149, 237));
+		btnUpdate.setBounds(369, 429, 125, 37);
+		panel_1.add(btnUpdate);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setForeground(Color.WHITE);
+		btnDelete.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
+		btnDelete.setBackground(new Color(100, 149, 237));
+		btnDelete.setBounds(616, 429, 125, 37);
+		panel_1.add(btnDelete);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/Picture4.png")));
+		lblNewLabel_1.setBounds(63, 11, 88, 95);
+		panel_1.add(lblNewLabel_1);
 		
 	
 	}
@@ -224,5 +244,4 @@ public class EmployeeHomePage {
             return null;
         }
     }
-
 }
