@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import services.Consts;
+import services.DbConnector;
+
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -21,8 +23,8 @@ public class ChildPage {
 	private JTextField childNameT;
 	private JTextField childAgeT;
 	private JTextField childAddressT;
-	private JTextArea childNoteT;
 	private JButton okBtn;
+	private JLabel lblChild;
 
 	/**
 	 * Launch the application.
@@ -67,61 +69,87 @@ public class ChildPage {
 		JLabel lblNewLabel = new JLabel("Name");
 		lblNewLabel.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 49, 95, 38);
+		lblNewLabel.setBounds(64, 43, 95, 38);
 		frame.getContentPane().add(lblNewLabel);
 		
 		childNameT = new JTextField();
 		childNameT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
-		childNameT.setBounds(10, 98, 95, 38);
+		childNameT.setBounds(64, 92, 95, 38);
 		frame.getContentPane().add(childNameT);
 		childNameT.setColumns(10);
 		
 		childAgeT = new JTextField();
 		childAgeT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
 		childAgeT.setColumns(10);
-		childAgeT.setBounds(149, 98, 95, 38);
+		childAgeT.setBounds(258, 92, 95, 38);
 		frame.getContentPane().add(childAgeT);
 		
 		JLabel lblAge = new JLabel("Age");
 		lblAge.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAge.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
-		lblAge.setBounds(149, 49, 95, 38);
+		lblAge.setBounds(258, 43, 95, 38);
 		frame.getContentPane().add(lblAge);
 		
 		childAddressT = new JTextField();
 		childAddressT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
 		childAddressT.setColumns(10);
-		childAddressT.setBounds(293, 98, 95, 38);
+		childAddressT.setBounds(456, 92, 95, 38);
 		frame.getContentPane().add(childAddressT);
 		
 		JLabel lblAddress = new JLabel("Address");
 		lblAddress.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddress.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
-		lblAddress.setBounds(293, 49, 95, 38);
+		lblAddress.setBounds(456, 43, 95, 38);
 		frame.getContentPane().add(lblAddress);
-		
-		childNoteT = new JTextArea();
-		childNoteT.setLineWrap(true);
-		childNoteT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
-		childNoteT.setColumns(10);
-		childNoteT.setBounds(448, 98, 167, 78);
-		frame.getContentPane().add(childNoteT);
-		
-		JLabel lblNote = new JLabel("Note");
-		lblNote.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNote.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
-		lblNote.setBounds(474, 49, 95, 38);
-		frame.getContentPane().add(lblNote);
 		
 		okBtn = new JButton("Ok");
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getFrame().dispose();
+				int rowSelected;
+				int childId=0;
+				
+							
+				try{
+					char op=ManagerHomePage.getOperation();
+					String childName=childNameT.getText().toString();
+					String childAge=childAgeT.getText().toString();
+					String childAddress=childAddressT.getText().toString();						
+					DbConnector database= new DbConnector();
+					database.seConnecter();					
+					if(op=='a') {
+						String sql="insert into coea.child(name,age,address) values('"+childName+"','"+childAge+"','"+childAddress+"')";
+						database.executerUpdate(sql);
+					}
+					else if(op=='u') {
+						try {
+							rowSelected=ManagerHomePage.getTable().getSelectedRow();
+							childId=Integer.valueOf(ManagerHomePage.getaModel1().getValueAt(rowSelected, 0).toString());	
+						}catch (Exception ex) {
+							// TODO: handle exception
+							
+						}
+						String sql="update coea.child set name='"+childName+"',age='"+childAge+"',address='"+childAddress+"' where idchild='"+childId+"'";
+						database.executerUpdate(sql);
+					}
+					
+					else {
+						
+					}
+					getFrame().dispose();
+				}catch(Exception eex) {
+					eex.printStackTrace();;
+				}
+				
 			}
 		});
 		okBtn.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 15));
 		okBtn.setBounds(689, 70, 111, 47);
 		frame.getContentPane().add(okBtn);
+		
+		lblChild = new JLabel("Child");
+		lblChild.setFont(new Font("Trebuchet MS", Font.BOLD, 19));
+		lblChild.setBounds(389, 11, 46, 21);
+		frame.getContentPane().add(lblChild);
 	}
 
 }

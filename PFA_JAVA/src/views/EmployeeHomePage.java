@@ -1,47 +1,64 @@
 package views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
-import services.Consts;
-import services.DbConnector;
-
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.sql.DatabaseMetaData;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableModel;
+
+import services.Consts;
+import services.DbConnector;
 
 public class EmployeeHomePage {
 	private ArrayList<String> TABLE_COLUMNS;
 	private JFrame frame;
-	private JTable table;
+	private static JTable table;
 	private int ROW_HEIGHT = 30;
-	private JTable table_1;
+	private static JTable table_1;
+	static char operation;
+	private static DefaultTableModel aModel1;
+
+
+
+	public static JTable getTable() {
+		return table;
+	}
+
+
+	public static void setTable(JTable table) {
+		EmployeeHomePage.table = table;
+	}
+
+
+	public static DefaultTableModel getaModel1() {
+		return aModel1;
+	}
+
+
+	public static void setaModel1(DefaultTableModel aModel1) {
+		EmployeeHomePage.aModel1 = aModel1;
+	}
+
 
 	/**
 	 * Launch the application.
@@ -103,16 +120,20 @@ public class EmployeeHomePage {
 		button.setIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/Picture3.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				HomePage homePage=new HomePage();
+				homePage.getFrame().setVisible(true);
+				getFrame().setVisible(false);
+				getFrame().dispose();
 			}
 		});
 		button.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 18));
 		button.setBounds(777, 11, 78, 52);
 		panel_1.add(button);
 		
-		JLabel employeeNameL = new JLabel("Employee Name");
+		JLabel employeeNameL = new JLabel(HomePage.employeeName.toUpperCase());
 		employeeNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		employeeNameL.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-		employeeNameL.setBounds(32, 88, 138, 52);
+		employeeNameL.setBounds(10, 99, 174, 44);
 		panel_1.add(employeeNameL);
 		
 		JComboBox comboBox = new JComboBox();
@@ -149,6 +170,32 @@ public class EmployeeHomePage {
 		panel_1.add(reloadBtn);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManagerHomePage.table=table;
+				ManagerHomePage.aModel1=aModel1;
+				ManagerHomePage.operation='a';
+				if(comboBox.getSelectedItem().toString()=="employee") {
+					EmployeePage employeePageAdd =new EmployeePage();
+					employeePageAdd.getFrame().setVisible(true);
+				}
+				else if(comboBox.getSelectedItem().toString()=="group"){
+					GroupPage groupPageAdd =new GroupPage();
+					groupPageAdd.getFrame().setVisible(true);
+				}
+				else if(comboBox.getSelectedItem().toString()=="event") {
+					EventPage eventPageAdd =new EventPage();
+					eventPageAdd.getFrame().setVisible(true);
+				}
+				else if(comboBox.getSelectedItem().toString()=="child") {
+					ChildPage childPageAdd =new ChildPage();
+					childPageAdd.getFrame().setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(getFrame(), "Please Select A Table");
+				}
+			}
+		});
 		btnAdd.setForeground(Color.WHITE);
 		btnAdd.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
 		btnAdd.setBackground(new Color(100, 149, 237));
@@ -156,6 +203,35 @@ public class EmployeeHomePage {
 		panel_1.add(btnAdd);
 		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ManagerHomePage.table=table;
+				ManagerHomePage.aModel1=aModel1;
+				ManagerHomePage.operation='u';				
+				if(comboBox.getSelectedItem().toString()=="employee") {
+					EmployeePage employeePageAdd =new EmployeePage();
+					employeePageAdd.getFrame().setVisible(true);
+				}
+				else if(comboBox.getSelectedItem().toString()=="group"){
+					GroupPage groupPageAdd =new GroupPage();
+					groupPageAdd.getFrame().setVisible(true);
+				}
+				else if(comboBox.getSelectedItem().toString()=="event") {
+					EventPage eventPageAdd =new EventPage();
+					eventPageAdd.getFrame().setVisible(true);
+				}
+				else if(comboBox.getSelectedItem().toString()=="child") {
+					ChildPage childPageAdd =new ChildPage();
+					childPageAdd.getFrame().setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(getFrame(), "Please Select A Table");
+				}
+				
+			}
+		});
 		btnUpdate.setForeground(Color.WHITE);
 		btnUpdate.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
 		btnUpdate.setBackground(new Color(100, 149, 237));
@@ -163,6 +239,40 @@ public class EmployeeHomePage {
 		panel_1.add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ManagerHomePage.operation='d';
+				int rowSelected=ManagerHomePage.getTable().getSelectedRow();
+				String id=ManagerHomePage.getaModel1().getValueAt(rowSelected, 0).toString();
+				DbConnector database= new DbConnector();
+				database.seConnecter();
+				if(comboBox.getSelectedItem().toString()=="employee") {					
+					String sql="delete from coea.employee where idemployee='"+id+"'";					
+					database.executerUpdate(sql);
+					JOptionPane.showMessageDialog(getFrame(), "Employee Deleted!");
+				}
+				else if(comboBox.getSelectedItem().toString()=="group"){
+					String sql="delete from coea.group where idgroup='"+id+"'";					
+					database.executerUpdate(sql);
+					JOptionPane.showMessageDialog(getFrame(), "Group Deleted!");
+				}
+				else if(comboBox.getSelectedItem().toString()=="event") {
+					String sql="delete from coea.event where idevent='"+id+"'";					
+					database.executerUpdate(sql);
+					JOptionPane.showMessageDialog(getFrame(), "Event Deleted!");
+				}
+				else if(comboBox.getSelectedItem().toString()=="child") {
+					String sql="delete from coea.child where idchild='"+id+"'";					
+					database.executerUpdate(sql);
+					JOptionPane.showMessageDialog(getFrame(), "Child Deleted!");
+				}
+				else {
+					JOptionPane.showMessageDialog(getFrame(), "Please Select A Table");
+				}
+			}
+		});
 		btnDelete.setForeground(Color.WHITE);
 		btnDelete.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
 		btnDelete.setBackground(new Color(100, 149, 237));
@@ -170,78 +280,98 @@ public class EmployeeHomePage {
 		panel_1.add(btnDelete);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/Picture4.png")));
-		lblNewLabel_1.setBounds(63, 11, 88, 95);
+		lblNewLabel_1.setIcon(new ImageIcon(ManagerHomePage.class.getResource("/images/Picture4.png")));
+		lblNewLabel_1.setBounds(59, 11, 88, 95);
 		panel_1.add(lblNewLabel_1);
 		
 	
 	}
-	public void prepTableSpec(JTable jtable1,JComboBox comboBox,DbConnector database) {
-        DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
-        model.getDataVector().removeAllElements();
-        model.fireTableStructureChanged();
-        if (jtable1.getCellEditor() != null) {
-            jtable1.getCellEditor().stopCellEditing();
-        }
-        String[] columns = TABLE_COLUMNS.stream().toArray(size -> new String[size]);
-        model = new DefaultTableModel(columns, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        jtable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        jtable1.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
-            if (!e.getValueIsAdjusting()) {
-            }
-        });
-        jtable1.setModel(model);
 
-        try {
-            String SQL = "SELECT * FROM coea." + comboBox.getSelectedItem().toString();
-            database.executerRequete(SQL);
-            ResultSet resset = database.getRs();
-            setData(jtable1, resset);
-            TABLE_COLUMNS.clear();
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
+	public void prepTableSpec(JTable jtable1, JComboBox comboBox, DbConnector database) {
+		DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
+		model.getDataVector().removeAllElements();
+		model.fireTableStructureChanged();
+		if (jtable1.getCellEditor() != null) {
+			jtable1.getCellEditor().stopCellEditing();
+		}
+		String[] columns = TABLE_COLUMNS.stream().toArray(size -> new String[size]);
+		model = new DefaultTableModel(columns, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		jtable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		jtable1.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+			if (!e.getValueIsAdjusting()) {
+			}
+		});
+		jtable1.setModel(model);
 
-    public void setData(JTable jTable, ResultSet resultSet) {
-        ArrayList<ArrayList<Object>> result = toArrayList(resultSet);
-        DefaultTableModel aModel = (DefaultTableModel) jTable.getModel();
-        aModel.getDataVector().removeAllElements();
-        aModel.fireTableStructureChanged();
-        for (int i = 0; i < result.size(); i++) {
-            Object[] object = result.get(i).toArray();
-            aModel.addRow(object);
-            jTable.setRowHeight(i, ROW_HEIGHT);
+		try {
+			String SQL = "SELECT * FROM coea." + comboBox.getSelectedItem().toString();
+			database.executerRequete(SQL);
+			ResultSet resset = database.getRs();
+			setData(jtable1, resset);
+			TABLE_COLUMNS.clear();
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+	}
 
-        }
-        jTable.setModel(aModel);
-    }
+	public void setData(JTable jTable, ResultSet resultSet) {
+		ArrayList<ArrayList<Object>> result = toArrayList(resultSet);
+		DefaultTableModel aModel = (DefaultTableModel) jTable.getModel();
+		aModel.getDataVector().removeAllElements();
+		aModel.fireTableStructureChanged();
+		for (int i = 0; i < result.size(); i++) {
+			Object[] object = result.get(i).toArray();
+			aModel.addRow(object);
+			jTable.setRowHeight(i, ROW_HEIGHT);
 
-    public ArrayList<ArrayList<Object>> toArrayList(ResultSet resultSet) {
-        try {
-            ArrayList<ArrayList<Object>> table;
-            int columnCount = resultSet.getMetaData().getColumnCount();
-            if (resultSet.getType() == ResultSet.TYPE_FORWARD_ONLY) {
-                table = new ArrayList<>();
-            } else {
-                resultSet.last();
-                table = new ArrayList<>(resultSet.getRow());
-                resultSet.beforeFirst();
-            }
-            for (ArrayList<Object> row; resultSet.next(); table.add(row)) {
-                row = new ArrayList<>(columnCount);
-                for (int c = 1; c <= columnCount; ++c) {
-                    row.add(resultSet.getString(c).intern());
-                }
-            }
-            return table;
-        } catch (SQLException e) {
-            return null;
-        }
-    }
+		}
+		jTable.setModel(aModel);
+		aModel1=aModel;
+	}
+
+	public ArrayList<ArrayList<Object>> toArrayList(ResultSet resultSet) {
+		try {
+			ArrayList<ArrayList<Object>> table;
+			int columnCount = resultSet.getMetaData().getColumnCount();
+			if (resultSet.getType() == ResultSet.TYPE_FORWARD_ONLY) {
+				table = new ArrayList<>();
+			} else {
+				resultSet.last();
+				table = new ArrayList<>(resultSet.getRow());
+				resultSet.beforeFirst();
+			}
+			for (ArrayList<Object> row; resultSet.next(); table.add(row)) {
+				row = new ArrayList<>(columnCount);
+				for (int c = 1; c <= columnCount; ++c) {
+					row.add(resultSet.getString(c).intern());
+				}
+			}
+			return table;
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+
+	public static char getOperation() {
+		return operation;
+	}
+
+	public static void setOperation(char operation) {
+		ManagerHomePage.operation = operation;
+	}
+
 }

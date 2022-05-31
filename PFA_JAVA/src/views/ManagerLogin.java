@@ -5,7 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import services.Consts;
+import services.DbConnector;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -14,14 +18,17 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class ManagerLogin {
 
 	private JFrame frame;
 	private JTextField managerUsernameT;
-	private JTextField managerPasswordT;
-	private JTextField managerCodeT;
+	private JPasswordField managerPasswordT;
+	private JPasswordField managerCodeT;
+	public static String managerName="No Manager Connected";
 
 	/**
 	 * Launch the application.
@@ -82,22 +89,26 @@ public class ManagerLogin {
 		panel_1.add(lblHelloManager);
 		
 		managerUsernameT = new JTextField();
+		managerUsernameT.setHorizontalAlignment(SwingConstants.CENTER);
+		managerUsernameT.setFont(new Font("Trebuchet MS", Font.BOLD, 17));
 		managerUsernameT.setToolTipText("Username");
 		managerUsernameT.setColumns(10);
 		managerUsernameT.setBounds(58, 183, 225, 45);
 		panel_1.add(managerUsernameT);
 		
-		managerPasswordT = new JTextField();
+		managerPasswordT = new JPasswordField();
+		managerPasswordT.setHorizontalAlignment(SwingConstants.CENTER);
+		managerPasswordT.setFont(new Font("Trebuchet MS", Font.BOLD, 17));
 		managerPasswordT.setToolTipText("Password");
 		managerPasswordT.setColumns(10);
 		managerPasswordT.setBounds(58, 269, 225, 45);
 		panel_1.add(managerPasswordT);
 		
-		JLabel label_2 = new JLabel("Email / Username");
-		label_2.setHorizontalAlignment(SwingConstants.LEFT);
-		label_2.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		label_2.setBounds(58, 147, 143, 31);
-		panel_1.add(label_2);
+		JLabel lblManagerId = new JLabel("Manager Id");
+		lblManagerId.setHorizontalAlignment(SwingConstants.LEFT);
+		lblManagerId.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+		lblManagerId.setBounds(58, 147, 143, 31);
+		panel_1.add(lblManagerId);
 		
 		JLabel label_3 = new JLabel("Password");
 		label_3.setHorizontalAlignment(SwingConstants.LEFT);
@@ -105,9 +116,59 @@ public class ManagerLogin {
 		label_3.setBounds(58, 233, 88, 31);
 		panel_1.add(label_3);
 		
+		managerCodeT = new JPasswordField();
+		managerCodeT.setHorizontalAlignment(SwingConstants.CENTER);
+		managerCodeT.setFont(new Font("Trebuchet MS", Font.BOLD, 17));
+		managerCodeT.setToolTipText("Password");
+		managerCodeT.setColumns(10);
+		managerCodeT.setBounds(58, 355, 225, 45);
+		panel_1.add(managerCodeT);
+		
 		JButton managerConfirmBtn = new JButton("Confirm");
 		managerConfirmBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String username=managerUsernameT.getText().toString();
+				String password=managerPasswordT.getText().toString();
+				String code=managerCodeT.getText().toString();
+				String sql="SELECT * FROM coea.manager where idmanager = '"+username+"' and password= '"+password+"'and code= '"+code+"'";
+				DbConnector db =new DbConnector();
+				db.seConnecter();
+				db.executerRequete(sql);
+				
+				int i=0;
+				try {
+					while (db.getRs().next()) {
+						  i++;
+						}
+				} catch (SQLException ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+				if (i==0) {
+					JOptionPane.showMessageDialog(getFrame(), "Email Or Password Incorrect");}
+				else {
+					
+					
+					String s="SELECT * FROM coea.employee where idemployee = '"+username+"'";
+					db.executerRequete(sql);
+					try {
+						while (db.getRs().next()) {
+							managerName=db.getRs().getNString("name");
+							
+							}
+							
+						
+					} catch (SQLException ex) {
+						// TODO Auto-generated catch block
+						ex.printStackTrace();
+						
+					}
+					JOptionPane.showMessageDialog(getFrame(), "Welcome "+managerName);
+					ManagerHomePage managerHomePage=new ManagerHomePage();
+					managerHomePage.getFrame().setVisible(true);
+					getFrame().setVisible(false);
+					getFrame().dispose();
+				}
 			}
 		});
 		managerConfirmBtn.setForeground(Color.WHITE);
@@ -116,11 +177,7 @@ public class ManagerLogin {
 		managerConfirmBtn.setBounds(150, 437, 225, 45);
 		panel_1.add(managerConfirmBtn);
 		
-		managerCodeT = new JTextField();
-		managerCodeT.setToolTipText("Password");
-		managerCodeT.setColumns(10);
-		managerCodeT.setBounds(58, 355, 225, 45);
-		panel_1.add(managerCodeT);
+		
 		
 		JLabel lblCode = new JLabel("Code");
 		lblCode.setHorizontalAlignment(SwingConstants.LEFT);
@@ -128,4 +185,13 @@ public class ManagerLogin {
 		lblCode.setBounds(58, 319, 88, 31);
 		panel_1.add(lblCode);
 	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+	
 }

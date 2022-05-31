@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import services.Consts;
+import services.DbConnector;
+
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,9 +21,8 @@ public class EmployeePage {
 
 	private JFrame frame;
 	private JTextField employeeNameT;
-	private JTextField EmployeeAgeT;
+	private JTextField employeeAgeT;
 	private JTextField employeeAddressT;
-	private JTextArea employeeNoteT;
 	private JButton okBtn;
 	private JPasswordField employeeKeyT;
 	private JLabel lblKey;
@@ -70,47 +71,64 @@ public class EmployeePage {
 		frame.getContentPane().add(employeeNameT);
 		employeeNameT.setColumns(10);
 		
-		EmployeeAgeT = new JTextField();
-		EmployeeAgeT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
-		EmployeeAgeT.setColumns(10);
-		EmployeeAgeT.setBounds(141, 98, 95, 38);
-		frame.getContentPane().add(EmployeeAgeT);
+		employeeAgeT = new JTextField();
+		employeeAgeT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
+		employeeAgeT.setColumns(10);
+		employeeAgeT.setBounds(181, 98, 95, 38);
+		frame.getContentPane().add(employeeAgeT);
 		
 		JLabel lblAge = new JLabel("Age");
 		lblAge.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAge.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
-		lblAge.setBounds(141, 49, 95, 38);
+		lblAge.setBounds(181, 49, 95, 38);
 		frame.getContentPane().add(lblAge);
 		
 		employeeAddressT = new JTextField();
 		employeeAddressT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
 		employeeAddressT.setColumns(10);
-		employeeAddressT.setBounds(259, 98, 95, 38);
+		employeeAddressT.setBounds(340, 98, 95, 38);
 		frame.getContentPane().add(employeeAddressT);
 		
 		JLabel lblAddress = new JLabel("Address");
 		lblAddress.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddress.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
-		lblAddress.setBounds(259, 49, 95, 38);
+		lblAddress.setBounds(340, 49, 95, 38);
 		frame.getContentPane().add(lblAddress);
-		
-		employeeNoteT = new JTextArea();
-		employeeNoteT.setLineWrap(true);
-		employeeNoteT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
-		employeeNoteT.setColumns(10);
-		employeeNoteT.setBounds(495, 98, 167, 78);
-		frame.getContentPane().add(employeeNoteT);
-		
-		JLabel lblNote = new JLabel("Note");
-		lblNote.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNote.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
-		lblNote.setBounds(526, 49, 95, 38);
-		frame.getContentPane().add(lblNote);
 		
 		okBtn = new JButton("Ok");
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getFrame().dispose();
+				int rowSelected;
+				int employeeId=0;								
+				try{
+					char op=ManagerHomePage.getOperation();
+					String employeeName=employeeNameT.getText().toString();
+					String employeeAge=employeeAgeT.getText().toString();	
+					String employeeAddress=employeeAddressT.getText().toString();
+					String employeePassword=employeeKeyT.getText().toString();
+					DbConnector database= new DbConnector();
+					database.seConnecter();					
+					if(op=='a') {								
+						String sql="insert into coea.employee(name,age,address,password) values('"+employeeName+"','"+employeeAge+"','"+employeeAddress+"','"+employeePassword+"')";
+						database.executerUpdate(sql);
+					}
+					else if(op=='u') {
+						try {
+							rowSelected=ManagerHomePage.getTable().getSelectedRow();
+							employeeId=Integer.valueOf(ManagerHomePage.getaModel1().getValueAt(rowSelected, 0).toString());	
+							//System.out.println(eventId);
+						}catch (Exception ex) {
+							// TODO: handle exception
+							System.out.println("erreur");
+						}
+						String sql="update coea.employee set name='"+employeeName+"',age='"+employeeAge+"',age='"+employeeAge+"',address='"+employeeAddress+"',password='"+employeePassword+"'where idemployee='"+employeeId+"'";
+						database.executerUpdate(sql);
+					}					
+					else {						
+					}
+					getFrame().dispose();
+				}catch(Exception eex) {					
+				}
 			}
 		});
 		okBtn.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 15));
@@ -120,14 +138,19 @@ public class EmployeePage {
 		employeeKeyT = new JPasswordField();
 		employeeKeyT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
 		employeeKeyT.setColumns(10);
-		employeeKeyT.setBounds(377, 98, 95, 38);
+		employeeKeyT.setBounds(494, 98, 95, 38);
 		frame.getContentPane().add(employeeKeyT);
 		
 		lblKey = new JLabel("Key");
 		lblKey.setHorizontalAlignment(SwingConstants.CENTER);
 		lblKey.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
-		lblKey.setBounds(378, 49, 95, 38);
+		lblKey.setBounds(495, 49, 95, 38);
 		frame.getContentPane().add(lblKey);
+		
+		JLabel lblNewLabel_1 = new JLabel("Employee");
+		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.BOLD, 19));
+		lblNewLabel_1.setBounds(364, 11, 95, 21);
+		frame.getContentPane().add(lblNewLabel_1);
 	}
 
 	public JFrame getFrame() {
@@ -137,5 +160,4 @@ public class EmployeePage {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
-
 }

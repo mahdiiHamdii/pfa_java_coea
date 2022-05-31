@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import services.Consts;
+import services.DbConnector;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -19,8 +21,9 @@ public class GroupPage {
 	private JFrame frame;
 	private JTextField groupNameT;
 	private JTextField idChildT;
-	private JTextField idEmployee;
+	private JTextField idEmployeeT;
 	private JButton okBtn;
+	private JLabel lblGroup;
 
 	/**
 	 * Launch the application.
@@ -78,11 +81,11 @@ public class GroupPage {
 		lblAge.setBounds(246, 49, 95, 38);
 		frame.getContentPane().add(lblAge);
 		
-		idEmployee = new JTextField();
-		idEmployee.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
-		idEmployee.setColumns(10);
-		idEmployee.setBounds(457, 98, 95, 38);
-		frame.getContentPane().add(idEmployee);
+		idEmployeeT = new JTextField();
+		idEmployeeT.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
+		idEmployeeT.setColumns(10);
+		idEmployeeT.setBounds(457, 98, 95, 38);
+		frame.getContentPane().add(idEmployeeT);
 		
 		JLabel lblAddress = new JLabel("ID Employee");
 		lblAddress.setHorizontalAlignment(SwingConstants.CENTER);
@@ -93,12 +96,49 @@ public class GroupPage {
 		okBtn = new JButton("Ok");
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getFrame().dispose();
+				int rowSelected;
+				String groupId="";							
+				try{
+					char op=ManagerHomePage.getOperation();
+					String groupName=groupNameT.getText().toString();
+					String idChild=idChildT.getText().toString();
+					String idemployee=idEmployeeT.getText().toString();					
+					DbConnector database= new DbConnector();
+					database.seConnecter();					
+					if(op=='a') {
+						String sql="insert into coea.group(groupname,idchild,idemployee) values('"+groupName+"','"+idChild+"','"+idemployee+"')";
+						database.executerUpdate(sql);
+					}
+					else if(op=='u') {
+						try {
+							rowSelected=ManagerHomePage.getTable().getSelectedRow();
+							groupId=ManagerHomePage.getaModel1().getValueAt(rowSelected, 0).toString();	
+							
+						}catch (Exception ex) {
+							// TODO: handle exception
+							System.out.println("erreur");
+						}
+						String sql="update coea.group set groupname='"+groupName+"'where idgroup='"+groupId+"'";
+						database.executerUpdate(sql);
+					}
+					
+					else {
+						
+					}
+					getFrame().dispose();
+				}catch(Exception eex) {
+					
+				}
 			}
 		});
 		okBtn.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 15));
 		okBtn.setBounds(683, 82, 111, 47);
 		frame.getContentPane().add(okBtn);
+		
+		lblGroup = new JLabel("Group");
+		lblGroup.setFont(new Font("Trebuchet MS", Font.BOLD, 19));
+		lblGroup.setBounds(381, 11, 61, 21);
+		frame.getContentPane().add(lblGroup);
 	}
 
 	public JFrame getFrame() {

@@ -21,6 +21,7 @@ public class EventPage {
 	private JFrame frame;
 	private JTextField eventNameT;
 	private JButton okBtn;
+	private JLabel lblEvent;
 
 	/**
 	 * Launch the application.
@@ -76,8 +77,9 @@ public class EventPage {
 		okBtn = new JButton("Ok");
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
-				int rowSelected=ManagerHomePage.getTable().getSelectedRow();
-				String eventId=ManagerHomePage.getaModel1().getValueAt(rowSelected, 0).toString();				
+				int rowSelected;
+				String eventId="";
+										
 				try{
 					char op=ManagerHomePage.getOperation();
 					String eventName=eventNameT.getText().toString();
@@ -89,7 +91,15 @@ public class EventPage {
 						database.executerUpdate(sql);
 					}
 					else if(op=='u') {
-						String sql="update set eventname='"+eventName+"',description'"+eventDescription+"' where idevent='"+eventId+"'";
+						try {
+							rowSelected=ManagerHomePage.getTable().getSelectedRow();
+							eventId=ManagerHomePage.getaModel1().getValueAt(rowSelected, 0).toString();	
+							//System.out.println(eventId);
+						}catch (Exception ex) {
+							// TODO: handle exception
+							System.out.println("erreur");
+						}	
+						String sql="update coea.event set eventname='"+eventName+"',description='"+eventDescription+"' where idevent='"+eventId+"'";
 						database.executerUpdate(sql);
 					}
 					
@@ -112,6 +122,11 @@ public class EventPage {
 		lblDescription.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 14));
 		lblDescription.setBounds(375, 47, 95, 38);
 		frame.getContentPane().add(lblDescription);
+		
+		lblEvent = new JLabel("Event");
+		lblEvent.setFont(new Font("Trebuchet MS", Font.BOLD, 19));
+		lblEvent.setBounds(381, 11, 62, 21);
+		frame.getContentPane().add(lblEvent);
 	}
 
 	public JFrame getFrame() {

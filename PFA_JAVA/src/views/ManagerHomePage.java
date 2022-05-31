@@ -32,11 +32,11 @@ import services.DbConnector;
 public class ManagerHomePage {
 	private ArrayList<String> TABLE_COLUMNS;
 	private JFrame frame;
-	private static JTable table;
+	public static JTable table;
 	private int ROW_HEIGHT = 30;
-	private static JTable table_1;
-	private static char operation;
-	private static DefaultTableModel aModel1;
+	public static JTable table_1;
+	static char operation;
+	public static DefaultTableModel aModel1;
 
 
 
@@ -120,13 +120,17 @@ public class ManagerHomePage {
 		button.setIcon(new ImageIcon(EmployeeHomePage.class.getResource("/images/Picture3.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				HomePage homePage=new HomePage();
+				homePage.getFrame().setVisible(true);
+				getFrame().setVisible(false);
+				getFrame().dispose();
 			}
 		});
 		button.setFont(new Font("Tw Cen MT", Font.BOLD | Font.ITALIC, 18));
 		button.setBounds(777, 11, 78, 52);
 		panel_1.add(button);
 		
-		JLabel employeeNameL = new JLabel("Manager Name");
+		JLabel employeeNameL = new JLabel(ManagerLogin.managerName.toUpperCase());
 		employeeNameL.setHorizontalAlignment(SwingConstants.CENTER);
 		employeeNameL.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
 		employeeNameL.setBounds(23, 101, 175, 44);
